@@ -6,4 +6,4 @@ end
 
 require 'gcba-cultural'
 
-Gcba::Cultural.run
+Gcba::Cultural::Runner.run
