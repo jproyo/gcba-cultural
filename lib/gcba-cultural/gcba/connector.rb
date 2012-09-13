@@ -11,13 +11,10 @@ module Gcba
 				Nori.configure do |config|
   					config.convert_tags_to { |tag| tag.to_sym }
 				end
-			end
-
-			def get_events
-				url = "http://agendacultural.buenosaires.gob.ar/webservice/response/client.php"
-				params = {
+				@url = "http://agendacultural.buenosaires.gob.ar/webservice/response/client.php"
+				@params = {
 					:params => {
-						:Method => "GetEventosListFiltered",
+						:Method => nil,
 						:IdEvento => nil, 
 						:IdEstadoEvento => nil, 
 						:Titulo => nil,
@@ -52,12 +49,16 @@ module Gcba
 						:Longitud => "-0.127711",
 						:OrdenarPor => "Titulo",
 						:Orden => "ASC",
-						:Limit => nil,
+						:Limit => "200",
 						:Offset => "0",
 					}
 					
 				}
-				result = RestClient.get url, params
+			end
+
+			def get_events
+				@params[:params][:Method] = "GetEventosListFiltered"
+				result = RestClient.get @url, @params
 				Nori.parse(result)
 			end
 		end
